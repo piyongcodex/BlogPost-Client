@@ -1,0 +1,30 @@
+/* App.css */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.App-navbar {
+  height: 20%;
+  background-color: #f8f9fa; /* Example background color */
+}
+
+.App-footer {
+  height: 20%;
+  background-color: #f8f9fa; /* Example background color */
+}
+
+.App-container {
+  flex: 1;
+  height: 80%;
+  overflow-y: auto;
+}
