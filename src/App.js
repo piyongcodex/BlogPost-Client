@@ -19,6 +19,8 @@ function App() {
   const [user, setUser] = useState({
     id: null,
     isAdmin: null,
+    username: null,
+    email: null,
   });
 
   const unsetUser = () => {
@@ -37,6 +39,8 @@ function App() {
           setUser({
             id: null,
             isAdmin: null,
+            username: null,
+            email: null,
           });
         } else {
           setUser({
@@ -47,8 +51,8 @@ function App() {
           });
         }
       });
-  }, []);
-
+  });
+  // console.log(user);
   return (
     <UserProvider value={{ user, setUser, unsetUser }}>
       <Router>
