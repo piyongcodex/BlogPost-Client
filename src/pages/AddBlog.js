@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   FloatingLabel,
@@ -14,7 +14,17 @@ const AddBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if all fields have values to enable the button
+    if (title && content && author) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [title, content, author]);
 
   const add = (e) => {
     e.preventDefault();
@@ -83,7 +93,7 @@ const AddBlog = () => {
               />
             </FloatingLabel>
 
-            <Button type="submit" className="mt-3">
+            <Button type="submit" className="mt-3" disabled={!isFormValid}>
               Save the Blog
             </Button>
           </Form>

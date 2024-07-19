@@ -30,18 +30,20 @@ export default function Home() {
 
   return (
     <Container className="py-5">
-      {blogs && blogs.length > 0 ? (
+      {blogs !== undefined && blogs.length > 0 ? (
         <Row>
           {blogs.map((blog, index) => (
-            <Col key={index} md={4} className="mt-3">
+            <Col key={index} md={12} className="mt-3">
               <BlogPostCard blog={blog} onDoubleClick={handleDoubleClick} />
+              <hr />
             </Col>
           ))}
         </Row>
       ) : (
         <Row>
-          <Col>
-            <h2>No blogs</h2>
+          <Col className="text-center">
+            <h2>Welcome to Our Blog</h2>
+            <p>There are currently no blog posts available.</p>
           </Col>
         </Row>
       )}

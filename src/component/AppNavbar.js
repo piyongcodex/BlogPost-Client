@@ -42,13 +42,6 @@ export default function AppNavbar() {
                     >
                       Create Blog
                     </Nav.Link>
-                    <Nav.Link
-                      as={Link}
-                      to="/movie"
-                      className="custom-navbar-link"
-                    >
-                      My Blogs
-                    </Nav.Link>
                   </>
                 )}
 

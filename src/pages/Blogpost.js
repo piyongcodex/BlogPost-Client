@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Col, Row, ListGroup, Form, Button } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Card,
+  ListGroup,
+  Form,
+  Button,
+} from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import UserContext from "../UserContext";
+import RetrieveUsername from "../component/RetrieveUsername";
 
 const Blogpost = () => {
   const navigate = useNavigate();
@@ -65,7 +74,7 @@ const Blogpost = () => {
       console.log(data);
       if (data.message === "Blogpost updated successfully") {
         Swal.fire({
-          title: "Blog Updated Successful",
+          title: "Blog Updated Successfully",
           icon: "success",
           showConfirmButton: true,
         });
@@ -264,87 +273,94 @@ const Blogpost = () => {
 
   return (
     <Container>
-      <Row>
-        <Col xs="12">
-          <Form.Group>
-            <Form.Label>
-              <strong>Title: </strong>
-            </Form.Label>
-            {user.isAdmin === true ? (
-              <>
-                <span> {blogpost.title}</span>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteBlog()}
-                  className="ml-2 mt-2"
-                >
-                  Delete Blog
-                </Button>
-              </>
-            ) : blogpost.userId === user.id ? (
-              <>
-                <Form.Control
-                  type="text"
-                  value={blogpost.title}
-                  onChange={(e) => handleEditField("title", e.target.value)}
-                />
-                <Button
-                  variant="success"
-                  size="sm"
-                  onClick={() => handleSaveBlog()}
-                  className="ml-2 mt-2"
-                >
-                  Save Blog
-                </Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDeleteBlog()}
-                  className="ml-2 mt-2"
-                >
-                  Delete Blog
-                </Button>
-              </>
-            ) : (
-              <span> {blogpost.title}</span>
-            )}
-          </Form.Group>
-        </Col>
-        <Col xs="12">
-          <Form.Group>
-            <Form.Label>
-              <strong>Author: </strong>
-            </Form.Label>
-            {blogpost.userId === user.id ? (
-              <Form.Control
-                type="text"
-                value={blogpost.author}
-                onChange={(e) => handleEditField("author", e.target.value)}
-              />
-            ) : (
-              <span> {blogpost.author}</span>
-            )}
-          </Form.Group>
-        </Col>
-        <Col xs="12">
-          <Form.Group>
-            <Form.Label>
-              <strong>Content: </strong>
-            </Form.Label>
-            {blogpost.userId === user.id ? (
-              <Form.Control
-                as="textarea"
-                rows={5}
-                value={blogpost.content}
-                onChange={(e) => handleEditField("content", e.target.value)}
-              />
-            ) : (
-              <span> {blogpost.content}</span>
-            )}
-          </Form.Group>
-        </Col>
-        <Col xs="6">
+      <Card className="my-4">
+        <Card.Body>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <Form.Group>
+                <Form.Label className="mt-3">
+                  <strong>Title: </strong>
+                </Form.Label>
+                {user.isAdmin ? (
+                  <>
+                    <span> {blogpost.title}</span>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDeleteBlog()}
+                      className="ml-2 mt-2"
+                    >
+                      Delete Blog
+                    </Button>
+                  </>
+                ) : blogpost.userId === user.id ? (
+                  <>
+                    <Form.Control
+                      type="text"
+                      value={blogpost.title}
+                      onChange={(e) => handleEditField("title", e.target.value)}
+                    />
+                    <Button
+                      variant="success"
+                      size="sm"
+                      onClick={() => handleSaveBlog()}
+                      className="ml-2 mt-2"
+                    >
+                      Save Blog
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDeleteBlog()}
+                      className="ml-2 mt-2"
+                    >
+                      Delete Blog
+                    </Button>
+                  </>
+                ) : (
+                  <span> {blogpost.title}</span>
+                )}
+              </Form.Group>
+            </Col>
+            <Col xs={12} sm={6} md={6} lg={6}>
+              <Form.Group>
+                <Form.Label>
+                  <strong>Author: </strong>
+                </Form.Label>
+                {blogpost.userId === user.id ? (
+                  <Form.Control
+                    type="text"
+                    value={blogpost.author}
+                    onChange={(e) => handleEditField("author", e.target.value)}
+                  />
+                ) : (
+                  <span> {blogpost.author}</span>
+                )}
+              </Form.Group>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <Form.Group>
+                <Form.Label>
+                  <strong>Content: </strong>
+                </Form.Label>
+                {blogpost.userId === user.id ? (
+                  <Form.Control
+                    as="textarea"
+                    rows={5}
+                    value={blogpost.content}
+                    onChange={(e) => handleEditField("content", e.target.value)}
+                  />
+                ) : (
+                  <span> {blogpost.content}</span>
+                )}
+              </Form.Group>
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+
+      <Card className="mb-4">
+        <Card.Body>
           <h3>Comments</h3>
           <ListGroup>
             {Array.isArray(blogpost.comments) &&
@@ -362,7 +378,11 @@ const Blogpost = () => {
                         onChange={(e) => setEditCommentText(e.target.value)}
                       />
                     ) : (
-                      <span>{comment.comment}</span>
+                      <span>
+                        <RetrieveUsername userId={comment.userId} />
+                        {": "}
+                        {comment.comment}{" "}
+                      </span>
                     )}
 
                     {/* Edit and Delete buttons */}
@@ -399,7 +419,7 @@ const Blogpost = () => {
                         </Button>
                       </div>
                     )}
-                    {user.isAdmin === true && (
+                    {user.isAdmin && (
                       <Button
                         variant="danger"
                         size="sm"
@@ -417,7 +437,7 @@ const Blogpost = () => {
           </ListGroup>
 
           {user.isAdmin !== true ? (
-            <Form onSubmit={handleCommentSubmit}>
+            <Form onSubmit={handleCommentSubmit} className="mt-3">
               <Form.Group controlId="comment">
                 <Form.Label>Add a Comment</Form.Label>
                 <Form.Control
@@ -432,8 +452,8 @@ const Blogpost = () => {
               </Button>
             </Form>
           ) : null}
-        </Col>
-      </Row>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };

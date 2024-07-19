@@ -1,8 +1,11 @@
 .blog-post-card {
-  transition: box-shadow 0.3s ease;
+  border: none;
+  box-shadow: none;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .blog-post-card.hovered {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  border: 1px solid #ddd; /* Adding border on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow on hover */
+  transform: translateY(-2px); /* Adding slight lift on hover */
 }
